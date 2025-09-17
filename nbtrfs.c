@@ -27,7 +27,15 @@ typedef struct Filesystem {
 } Filesystem;
 
 // Filesystem management
-Filesystem* fs_mount(const char* disk_image);
+Filesystem* fs_mount(const char* disk_image)
+{
+	Filesystem *mount = (Filesystem*)malloc(sizeof(Filesystem));
+	
+	// TODO: mmap disk image
+	
+	return mount;
+}
+
 int fs_unmount(Filesystem* fs);
 int fs_format(const char* disk_image, const char* volume_name, uint64_t size);
 
