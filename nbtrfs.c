@@ -4,7 +4,11 @@
 #include <string.h>
 #include <stdint.h>
 
-#include "disk,h"
+#include "disk.h"
+#include "config.h"
+#include "superblock.h"
+#include "directory.h"
+#include "inode.h"
 
 // File operations
 int file_create(DiskInterface* disk, uint64_t parent_inode, const char* name, uint64_t* new_inode);
@@ -30,6 +34,7 @@ typedef struct Filesystem {
 Filesystem* fs_mount(const char* disk_image)
 {
 	Filesystem *mount = (Filesystem*)malloc(sizeof(Filesystem));
+	mount->disk = disk_open(disk_image);
 	
 	// TODO: mmap disk image
 	
@@ -83,7 +88,7 @@ const char* fs_error_string(FSError error);
 
 // ==================== MAIN IMPLEMENTATION OUTLINE ====================
 
-/*int main() {
+int main() {
     // Example usage outline
     Filesystem* fs = fs_mount("myfs.img");
     if (!fs) {
@@ -91,7 +96,7 @@ const char* fs_error_string(FSError error);
         fs_format("myfs.img", "MyVolume", 1024 * 1024 * 100); // 100MB
         fs = fs_mount("myfs.img");
     }
-    
+    /*
     // Create some files and directories
     fs_create_directory(fs, "/home");
     fs_create_directory(fs, "/home/user");
@@ -107,8 +112,8 @@ const char* fs_error_string(FSError error);
     fs_list_directory(fs, "/home/user", &entries, &count);
     
     // Cleanup
-    free(entries);
+    free(entries);*/
     fs_unmount(fs);
     
     return 0;
-}*/
+}
